@@ -1,0 +1,11 @@
+{
+    "library": {
+      "1":{"type":"monster","name":"Lion","description":"A savage lion","attack":1000,"defense":800},
+      "2":{"type":"monster","name":"Minotaur","description":"An angry creature from legend","attack":1100,"defense":1000},
+      "3":{"type":"monster","name":"Harpy","description":"A dangerous creature trying to seduce you","attack":1200,"defense":1000},
+      "4":{"type":"monster","name":"Black Panther","description":"A honorable warrior from Africa","attack":1300,"defense":1200},
+      "5":{"type":"monster","name":"Seraphim","description":"A holy warior from heaven","attack":1500,"defense":1100},
+      "6":{"type":"hunter","name":"Rookie Hunter","description":"A new hunter testing himself","power":1200},
+      "7":{"type":"hunter","name":"Forest Ranger","description":"A hunter protecting the forest","power":1300}
+    }
+}
