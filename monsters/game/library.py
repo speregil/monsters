@@ -15,7 +15,7 @@ class Library:
 
     Methods
     -------
-    get_card(id_number)
+    search_card_by_id(id_number)
         Returns the Card identified with id_number, None if the card does not exist.
 
     create_monster_card(name, description, attack_points, defense_points)
@@ -44,7 +44,7 @@ class Library:
                 library[id] = new_card
         self.library = library
 
-    def get_card(self, id_number:int) -> Card:
+    def search_card_by_id(self, id_number:str) -> Card:
         """" Returns the Card identified with id_number, None if the card does not exist
 
         Parameters
@@ -143,4 +143,4 @@ class Library:
                 card_dict['attack'] = card.attack_points
                 card_dict['defense'] = card.defense_points
             raw_library[id] = card_dict
-        data.save_library(raw_library)
+        data.save_library({'library':raw_library})
