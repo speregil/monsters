@@ -18,6 +18,15 @@ class Library:
     search_card_by_id(id_number)
         Returns the Card identified with id_number, None if the card does not exist.
 
+    search_card_by_name(name)
+        Returns the Card with the given name, None if the card does not exist
+
+    search_cards_by_type(type)
+        Returns a list of cards with the type given
+    
+    search_monsters_by_attack(attack)
+        Returns a list of monster cards with the given attack points
+
     create_monster_card(name, description, attack_points, defense_points)
         Creates a new MonsterCard and adds it to the current library. The library file is not modified.
     
@@ -60,6 +69,68 @@ class Library:
 
         return self.library.get(id_number,None)
     
+    def search_card_by_name(self, name:str) -> Card:
+        """ Returns the Card with the given name, None if the card does not exist
+
+        Parameters
+        ----------
+        name : str
+            Name to search for
+        
+        Returns
+        -------
+        Card
+            The card associated with the given name
+        """
+
+        for id in self.library:
+            current_card = self.library[id]
+            if current_card.name.lower() == name.lower():
+                return current_card
+        return None
+
+    def search_cards_by_type(self, type:int) -> list:
+        """ Returns a list of cards with the type given
+
+        Parameters
+        ----------
+        type : int
+            Type of card to search for
+        
+        Returns
+        -------
+        list
+            A list of cards with the given type
+        """
+
+        cards_list = []
+        for id in self.library:
+            card = self.library[id]
+            if card.type == type:
+                cards_list.append(card)
+        return cards_list
+
+    def search_monsters_by_attack(self, attack:int) -> list:
+        """ Returns a list of monster cards with the given attack points
+
+        Parameters
+        ----------
+        attack : int
+            Attack points of the cards to search
+
+        Returns
+        -------
+        list
+            A list of monster cards with the given attack points 
+        """
+
+        cards_list = []
+        for id in self.library:
+            card = self.library[id]
+            if card.type == Card.MONSTER_TYPE and card.attack_points == attack:
+                cards_list.append(card)
+        return cards_list
+
     def create_monster_card(self, name:str, description:str, attack_points:int, defense_points:int) -> MonsterCard:
         """" Creates a new MonsterCard and adds it to the current library. The library file is not modified
 
