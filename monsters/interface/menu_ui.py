@@ -20,6 +20,12 @@ def draw_search_menu() -> None:
     print('( 6 ) Search Hunter cards by Power')
     print('( 0 ) Return to the previous menu')
 
+def draw_create_menu() -> None:
+    print('What type of card do you want to create?')
+    print('( 1 ) A monster card')
+    print('( 2 ) A hunter card')
+    print('( 0 ) Return to the previous menu')
+
 def draw_card_list(cards:list) -> None:
     for card in cards:
         print(card.to_str())

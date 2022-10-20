@@ -21,6 +21,8 @@ save_library(current_library)
 search_cards(current_library)
     Controls the Search Cards menu
 
+create_card(current_library)
+    Controls the Create Card menu
 """
 
 def main():
@@ -42,6 +44,9 @@ def main():
         # Create cards menu
         elif option == 2:
             create_card(current_library)
+        # Eliminate card menu
+        elif option == 3:
+            eliminate_card(current_library)
     
     save_library(current_library) # Saves any changes to the current library in data/library.json
     print('Thanks for playing!')
@@ -139,7 +144,49 @@ def search_cards(current_library:Library) -> None:
 
 
 def create_card(current_library:Library) -> None:
-    return None
+    """ Controls the Create Card menu
+
+    Parameters
+    ----------
+    current_library : Library
+        Current state of the loaded library
+    """
+
+    routine_running = True
+    while routine_running:
+        menu.draw_create_menu()
+        option = int(input('Select and option:\t'))
+        if option == 0: # Exit option
+            routine_running = False
+        elif option == 1: # Monster option
+            print('Provide the following info to create a new Monster card')
+            name = input('NAME of the new card:\t')
+            description = input('DESCRIPTION of the new card:\t')
+            attack = int(input('ATTACK points of the new card:\t'))
+            defense = int(input('DEFENSE points of the new card:\t'))
+            new_card = current_library.create_monster_card(name,description,attack,defense)
+            print('A new monster was created:')
+            print(new_card.to_str())
+        elif option == 2: # Hunter option
+            print('Provide the following info to create a new Hunter card')
+            name = input('NAME of the new card:\t')
+            description = input('DESCRIPTION of the new card:\t')
+            power = int(input('POWER points of the new card:\t'))
+            new_card = current_library.create_hunter_card(name,description,power)
+            print('A new hunter was created:')
+            print(new_card.to_str())
+
+def eliminate_card(current_library:Library) -> None:
+    id = input('Please, provide the ID of the card to eliminate:\t')
+    card = current_library.search_card_by_id(id)
+    print(card.to_str())
+    print('Are you sure you want to eliminate this card?')
+    print('( 1 ) Yes')
+    print('( 2 ) No')
+    option = input()
+    if option == 1:
+        current_library.eliminate_card(id)
+        print('Card eliminated')
 
 if __name__ == "__main__":
     main()

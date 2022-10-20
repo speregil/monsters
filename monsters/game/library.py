@@ -49,15 +49,15 @@ class Library:
         for id in raw_library:
             card = raw_library[id]
             if card['type'] == 'monster':
-                new_card = MonsterCard(id,card['name'],card['description'],card['attack'],card['defense'])
-                library[id] = new_card
+                new_card = MonsterCard(int(id),card['name'],card['description'],card['attack'],card['defense'])
+                library[int(id)] = new_card
             else:
-                new_card = HunterCard(id,card['name'],card['description'],card['power'])
-                library[id] = new_card
+                new_card = HunterCard(int(id),card['name'],card['description'],card['power'])
+                library[int(id)] = new_card
         self.library = library
 
     def search_card_by_id(self, id_number:str) -> Card:
-        """" Returns the Card identified with id_number, None if the card does not exist
+        """ Returns the Card identified with id_number, None if the card does not exist
 
         Parameters
         ----------
@@ -70,7 +70,7 @@ class Library:
             The card associated with the given id
         """
 
-        return self.library.get(id_number,None)
+        return self.library.get(int(id_number),None)
     
     def search_card_by_name(self, name:str) -> Card:
         """ Returns the Card with the given name, None if the card does not exist
@@ -177,7 +177,7 @@ class Library:
         return cards_list
 
     def create_monster_card(self, name:str, description:str, attack_points:int, defense_points:int) -> MonsterCard:
-        """" Creates a new MonsterCard and adds it to the current library. The library file is not modified
+        """ Creates a new MonsterCard and adds it to the current library. The library file is not modified
 
         Parameters
         ----------
@@ -202,7 +202,7 @@ class Library:
         return new_card
 
     def create_hunter_card(self, name:str, description:str, power_points:int) -> HunterCard:
-        """" Creates a new HunterCard and adds it to the current library. The library file is not modified
+        """ Creates a new HunterCard and adds it to the current library. The library file is not modified
 
         Parameters
         ----------
@@ -210,7 +210,7 @@ class Library:
             Name of the new MonsterCard
         description : str
             Flavour description of the new HunterCard
-        apower_points : int
+        power_points : int
             Total power points of the new HunterCard
 
         Returns
@@ -224,8 +224,13 @@ class Library:
         self.library[id] = new_card
         return new_card
 
+    def eliminate_card(self, id:int) -> Card:
+        card = self.search_card_by_id(id)
+        del self.library[id]
+        return card
+
     def get_next_id_number(self) -> int:
-        """" Returns the next free id that can be used for a new Card addtion to the current library.
+        """ Returns the next free id that can be used for a new Card addtion to the current library.
 
         Returns
         -------
@@ -233,11 +238,8 @@ class Library:
             Next id that can be used in a new Card. The new id is the highest id in the current library + 1.
         """
         
-        ids = self.library.keys
-        last_id = 0
-        for id in ids:
-            if id > last_id:
-                last_id = id
+        ids = list(self.library.keys())
+        last_id = max(ids)
         return last_id + 1
 
     def save_library(self) -> None:
