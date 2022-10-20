@@ -27,6 +27,9 @@ class Library:
     search_monsters_by_attack(attack)
         Returns a list of monster cards with the given attack points
 
+    search_monsters_by_defense(defense)
+        Returns a list of monster cards with the given defense points
+
     create_monster_card(name, description, attack_points, defense_points)
         Creates a new MonsterCard and adds it to the current library. The library file is not modified.
     
@@ -128,6 +131,48 @@ class Library:
         for id in self.library:
             card = self.library[id]
             if card.type == Card.MONSTER_TYPE and card.attack_points == attack:
+                cards_list.append(card)
+        return cards_list
+
+    def search_monsters_by_defense(self, defense:int) -> list:
+        """ Returns a list of monster cards with the given defense points
+
+        Parameters
+        ----------
+        defense : int
+            Defense points of the cards to search
+
+        Returns
+        -------
+        list
+            A list of monster cards with the given defense points 
+        """
+
+        cards_list = []
+        for id in self.library:
+            card = self.library[id]
+            if card.type == Card.MONSTER_TYPE and card.defense_points == defense:
+                cards_list.append(card)
+        return cards_list
+
+    def search_hunters_by_power(self, power:int) -> list:
+        """ Returns a list of hunter cards with the given power points
+
+        Parameters
+        ----------
+        power : int
+            Power points of the cards to search
+
+        Returns
+        -------
+        list
+            A list of hunter cards with the given power points 
+        """
+
+        cards_list = []
+        for id in self.library:
+            card = self.library[id]
+            if card.type == Card.HUNTER_TYPE and card.power_points == power:
                 cards_list.append(card)
         return cards_list
 

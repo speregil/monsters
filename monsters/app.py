@@ -122,6 +122,20 @@ def search_cards(current_library:Library) -> None:
                 print('No cards of that much Attack Points')
             else:
                 menu.draw_card_list(cards)
+        elif option == 5: # Search by Defense option
+            defense = int(input('Input the defense points to search for:\t'))
+            cards = current_library.search_monsters_by_defense(defense)
+            if len(cards) <= 0:
+                print('No cards of that much Defense Points')
+            else:
+                menu.draw_card_list(cards)
+        elif option == 6: #Search by Power option
+            power = int(input('Input the power points to search for:\t'))
+            cards = current_library.search_hunters_by_power(power)
+            if len(cards) <= 0:
+                print('No cards of that much Power Points')
+            else:
+                menu.draw_card_list(cards)
 
 
 def create_card(current_library:Library) -> None:
