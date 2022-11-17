@@ -1,5 +1,7 @@
 from game.cards import *
+from game.deck import Deck
 import data.data_manager as data
+from typing import List
 
 class Library:
     """ 
@@ -15,6 +17,9 @@ class Library:
 
     Methods
     -------
+    load_library()
+        Loads the library from the data file of cards and returns it
+
     search_card_by_id(id_number)
         Returns the Card identified with id_number, None if the card does not exist.
 
@@ -36,6 +41,9 @@ class Library:
     create_hunter_card(name, description, power_points)
         Creates a new HunterCard and adds it to the current library. The library file is not modified.
     
+    eliminate_card(id)
+        Removes from the library the card with the provided ID. The library file is not modified
+    
     get_next_id_number()
         Returns the next free id that can be used for a new Card addtion to the current library.
 
@@ -44,6 +52,17 @@ class Library:
     """
 
     def __init__(self):
+        self.library = self.load_library()
+        self.decks:List[Deck] = []
+
+    def load_library(self) -> dict:
+        """ Loads the library from the data file of cards and returns it
+
+        Returns
+        -------
+        dict
+            A dictionary with all the cards in the library with the form id:card
+        """
         library = {}
         raw_library = data.load_library()
         for id in raw_library:
@@ -54,7 +73,8 @@ class Library:
             else:
                 new_card = HunterCard(int(id),card['name'],card['description'],card['power'])
                 library[int(id)] = new_card
-        self.library = library
+        return library
+
 
     def search_card_by_id(self, id_number:str) -> Card:
         """ Returns the Card identified with id_number, None if the card does not exist
@@ -225,6 +245,19 @@ class Library:
         return new_card
 
     def eliminate_card(self, id:int) -> Card:
+        """ Removes from the library the card with the provided ID. The library file is not modified
+        
+        Parameters
+        ----------
+        id : int
+            Unique ID of the card to be eliminated
+
+        Returns
+        -------
+        Card
+            The card that was eliminated from the library
+        """
+
         card = self.search_card_by_id(id)
         del self.library[id]
         return card
@@ -262,3 +295,30 @@ class Library:
                 card_dict['defense'] = card.defense_points
             raw_library[id] = card_dict
         data.save_library({'library':raw_library})
+
+    def get_deck(self, name:str) -> Deck:
+        for deck in self.decks:
+            if deck.name == name : return deck
+        return None
+    
+    def is_deck_name_available(self, name:str) -> bool:
+        for deck in self.decks:
+            if deck.name == name: False
+        return True
+
+    def create_deck(self, name:str) -> None:
+        if self.is_deck_name_available(name):
+            new_deck = Deck(name)
+            self.decks.append(new_deck)
+        else:
+            raise DeckNameError()
+    
+    def add_card(self, deck_name:str, card:Card) -> None:
+        deck = self.get_deck(deck_name)
+        if deck:
+            deck.add_card(card)
+            
+
+
+class DeckNameError(Exception):
+    pass

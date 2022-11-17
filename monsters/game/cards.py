@@ -27,6 +27,7 @@ class Card:
         self.id_number = id_number
         self.name = name
         self.description = description
+        self.type = None
 
     def to_str(self) -> str:
         """ Converts the information of the card into a printable string
