@@ -1,5 +1,6 @@
-from game.library import Library
+from game.library import *
 from game.cards import *
+from game.deck import *
 import interface.menu_ui as menu
 """
 Main script of the program
@@ -28,7 +29,6 @@ create_card(current_library)
 def main():
     """ Main function that controls the main menu and flow of the program
     """
-    print('Welcome to Monster Fighting')
     current_library = load_library()    # Loads the library from data/library.json
     app_running = True
 
@@ -44,11 +44,15 @@ def main():
         # Create cards menu
         elif option == 2:
             create_card(current_library)
+            save_library(current_library)
         # Eliminate card menu
         elif option == 3:
             eliminate_card(current_library)
-    
-    save_library(current_library) # Saves any changes to the current library in data/library.json
+            save_library(current_library)
+        # Manage decks menu
+        elif option == 4:
+            manage_decks(current_library)
+
     print('Thanks for playing!')
 
 def load_library() -> Library:
@@ -76,6 +80,11 @@ def save_library(current_library:Library) -> None:
 
     print('Saving library...')
     current_library.save_library()
+    print('Save Complete')
+
+def save_decks(current_library:Library) -> None:
+    print('Saving decks...')
+    current_library.save_decks()
     print('Save Complete')
 
 def search_cards(current_library:Library) -> None:
@@ -187,6 +196,31 @@ def eliminate_card(current_library:Library) -> None:
     if option == 1:
         current_library.eliminate_card(id)
         print('Card eliminated')
+
+def manage_decks(current_library:Library):
+    routine_running = True
+    while routine_running:
+        menu.draw_deck_menu()
+        option = int(input('Select and option:\t'))
+        if option == 0: # Exit option
+            routine_running = False
+        elif option == 1: # Create Deck option
+            deck_name = input('Please give a name to the new deck:\t')
+            try:
+                current_library.create_deck(deck_name)
+                print('/',deck_name, '/ created.')
+                save_decks(current_library)
+            except DeckNameError:
+                print('Another deck already has this name.')
+        elif option == 2: # List decks option
+            decks = current_library.decks
+            if len(decks) > 0:
+                i = 0
+                while i < len(decks):
+                    print('( ',i,' ) ', decks[i].name)
+                    i += 1
+            else:
+                print('You have not create any Decks yet!')
 
 if __name__ == "__main__":
     main()

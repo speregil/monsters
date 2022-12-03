@@ -1,16 +1,25 @@
 from game.cards import *
 
+def draw_menu_title(title:str) -> None:
+    print('-----------------------------------------')
+    print(title)
+    print('-----------------------------------------')
+    print('\n')
+
 def draw_main_menu() -> None:
+    print('\n')
+    draw_menu_title('Welcome to Monster Fighting')
     print('Plese, select an option:')
     print('( 1 ) Search Library')
     print('( 2 ) Create a new card')
     print('( 3 ) Eliminate a card')
-    print('( 4 ) Create a new deck')
-    print('( 5 ) Eliminate a deck')
-    print('( 6 ) Play a 1v1 game')
+    print('( 4 ) Manage all card Decks')
+    print('( 5 ) Play a 1v1 game')
     print('( 0 ) Exit')
 
 def draw_search_menu() -> None:
+    print('\n')
+    draw_menu_title('Cards Library')
     print('What do you want to search for?')
     print('( 1 ) Search card by ID')
     print('( 2 ) Search card by Name')
@@ -21,9 +30,30 @@ def draw_search_menu() -> None:
     print('( 0 ) Return to the previous menu')
 
 def draw_create_menu() -> None:
+    print('\n')
+    draw_menu_title('Create a new Card')
     print('What type of card do you want to create?')
     print('( 1 ) A monster card')
     print('( 2 ) A hunter card')
+    print('( 0 ) Return to the previous menu')
+
+def draw_deck_menu() -> None:
+    print('\n')
+    draw_menu_title('Decks Library')
+    print('Plese, select an option:')
+    print('( 1 ) Create a new Deck')
+    print('( 2 ) List all Decks')
+    print('( 3 ) View and edit a Deck')
+    print('( 4 ) Delete a Deck')
+    print('( 0 ) Return to the previous menu')
+
+def draw_deck_edit_menu(deck_name:str) -> None:
+    print('\n')
+    draw_menu_title(deck_name)
+    print('Plese, select an option:')
+    print('( 1 ) View', deck_name, 'cards')
+    print('( 2 ) Add card to', deck_name)
+    print('( 3 ) Remove card from',deck_name)
     print('( 0 ) Return to the previous menu')
 
 def draw_card_list(cards:list) -> None:

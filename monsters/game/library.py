@@ -54,6 +54,7 @@ class Library:
     def __init__(self):
         self.library = self.load_library()
         self.decks:List[Deck] = []
+        self.load_decks()
 
     def load_library(self) -> dict:
         """ Loads the library from the data file of cards and returns it
@@ -64,7 +65,7 @@ class Library:
             A dictionary with all the cards in the library with the form id:card
         """
         library = {}
-        raw_library = data.load_library()
+        raw_library = data.load_data('library')
         for id in raw_library:
             card = raw_library[id]
             if card['type'] == 'monster':
@@ -294,7 +295,17 @@ class Library:
                 card_dict['attack'] = card.attack_points
                 card_dict['defense'] = card.defense_points
             raw_library[id] = card_dict
-        data.save_library({'library':raw_library})
+        data.save_data({'data':raw_library},'library')
+
+    def load_decks(self) -> None:
+        raw_decks = data.load_data('decks')
+        for name in raw_decks:
+            new_deck = Deck(name)
+            card_list = raw_decks[name]
+            for id in card_list:
+                card = self.get_deck(int(id))
+                if card: new_deck.add_card(card)
+            self.decks.append(new_deck)
 
     def get_deck(self, name:str) -> Deck:
         for deck in self.decks:
@@ -303,7 +314,8 @@ class Library:
     
     def is_deck_name_available(self, name:str) -> bool:
         for deck in self.decks:
-            if deck.name == name: False
+            if deck.name == name: 
+                return False
         return True
 
     def create_deck(self, name:str) -> None:
@@ -317,8 +329,28 @@ class Library:
         deck = self.get_deck(deck_name)
         if deck:
             deck.add_card(card)
+        else:
+            raise NoSuchDeckError()
+
+    def remove_card(self, deck_name:str, id:int) -> Card:
+        deck = self.get_deck(deck_name)
+        if deck:
+            return deck.remove_card(id)
+        else:
+            raise NoSuchDeckError()
+
+    def save_decks(self):
+        raw_decks = {}
+        for deck in self.decks:
+            card_list = []
+            for card in deck.deck_list:
+                card_list.append(card.id_number)
+            raw_decks[deck.name] = card_list
+        data.save_data({'data':raw_decks},'decks')
+
             
-
-
 class DeckNameError(Exception):
+    pass
+
+class NoSuchDeckError(Exception):
     pass

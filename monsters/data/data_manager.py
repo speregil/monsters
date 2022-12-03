@@ -1,17 +1,19 @@
 import json
 from pathlib import Path
 
-def load_library() -> dict:
+def load_data(save_file:str) -> dict:
     script_dir = Path(__file__).parent
-    data_dir = (script_dir / 'library.json').resolve()
+    file_name = save_file + '.json'
+    data_dir = (script_dir / file_name).resolve()
     f = open(data_dir,'r')
     data = json.load(f)
-    return data['library']
+    return data['data']
 
-def save_library(raw_library:dict) -> None:
-    jsonString = json.dumps(raw_library)
+def save_data(data:dict, save_file:str) -> None:
+    jsonString = json.dumps(data)
     script_dir = Path(__file__).parent
-    data_dir = (script_dir / 'library.json').resolve()
+    file_name = save_file + '.json'
+    data_dir = (script_dir / file_name).resolve()
     jsonFile = open(data_dir, "w")
     jsonFile.write(jsonString)
     jsonFile.close()
