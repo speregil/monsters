@@ -219,8 +219,25 @@ def manage_decks(current_library:Library):
                 while i < len(decks):
                     print('( ',i,' ) ', decks[i].name)
                     i += 1
+                
+                search_running = True
+                while search_running:
+                    deck_num = int(input('Select a Deck:\t'))
+                    deck = current_library.get_deck_by_id(deck_num)
+                    if deck:
+                        edit_deck(deck, current_library)
+                    else:
+                        print('That Deck does not exist!')
             else:
-                print('You have not create any Decks yet!')
+                print('You have not created any Decks yet!')
 
+def edit_deck(deck:Deck, current_library:Library) -> None:
+    subroutine_running = True
+    while subroutine_running:
+        menu.draw_deck_edit_menu(deck)
+        option = int(input('Select and option:\t'))
+        if option == 0: # Exit option
+            subroutine_running = False
+                    
 if __name__ == "__main__":
     main()

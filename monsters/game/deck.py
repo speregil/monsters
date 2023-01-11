@@ -30,6 +30,9 @@ class Deck:
             for card in self.deck_list:
                 if card.type == Card.MONSTER_TYPE : return True
         return False
+
+    def deck_size(self) -> int:
+        return len(self.deck_list)
         
 class FullDeckError(Exception):
     pass

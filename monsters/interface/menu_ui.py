@@ -1,4 +1,5 @@
 from game.cards import *
+from game.deck import *
 
 def draw_menu_title(title:str) -> None:
     print('-----------------------------------------')
@@ -43,17 +44,25 @@ def draw_deck_menu() -> None:
     print('Plese, select an option:')
     print('( 1 ) Create a new Deck')
     print('( 2 ) List all Decks')
-    print('( 3 ) View and edit a Deck')
-    print('( 4 ) Delete a Deck')
+    print('( 3 ) Delete a Deck')
     print('( 0 ) Return to the previous menu')
 
-def draw_deck_edit_menu(deck_name:str) -> None:
+def draw_deck_edit_menu(deck:Deck) -> None:
     print('\n')
-    draw_menu_title(deck_name)
+    draw_menu_title(deck.name)
+    if deck.deck_size() > 0:
+        for i in range(len(deck.deck_list)):
+            card = deck.deck_list[i]
+            info = "( " + str(i) + ") "
+            info += card.name + " "
+            info += "[" + card.type + "]"
+            print(info)
+    else:
+        print('No cards in this deck')
+
     print('Plese, select an option:')
-    print('( 1 ) View', deck_name, 'cards')
-    print('( 2 ) Add card to', deck_name)
-    print('( 3 ) Remove card from',deck_name)
+    print('( 1 ) Add card to', deck.name)
+    print('( 2 ) Remove card from',deck.name)
     print('( 0 ) Return to the previous menu')
 
 def draw_card_list(cards:list) -> None:

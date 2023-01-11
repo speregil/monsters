@@ -325,6 +325,9 @@ class Library:
         else:
             raise DeckNameError()
     
+    def get_deck_by_id(self, id:int) -> Deck:
+        return self.decks[id]
+        
     def add_card(self, deck_name:str, card:Card) -> None:
         deck = self.get_deck(deck_name)
         if deck:
